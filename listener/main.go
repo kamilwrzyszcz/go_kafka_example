@@ -18,10 +18,9 @@ func main() {
 
 	reader := reader.NewKafkaReader(config)
 
-	ctx := context.Background()
 	messageCommitChan := make(chan kafkago.Message)
 
-	g, ctx := errgroup.WithContext(ctx)
+	g, ctx := errgroup.WithContext(context.Background())
 
 	g.Go(func() error {
 		return reader.FetchMessage(ctx, messageCommitChan)

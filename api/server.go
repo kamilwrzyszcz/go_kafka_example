@@ -53,9 +53,8 @@ func (server *Server) messages(c *fiber.Ctx) {
 		return
 	}
 
-	ctx := context.Background()
 	// Could also be done with WaitGroup
-	g, ctx := errgroup.WithContext(ctx)
+	g, ctx := errgroup.WithContext(context.Background())
 
 	for _, msg := range req.Messages {
 		m := kafkago.Message{
@@ -83,8 +82,7 @@ func (server *Server) Start() error {
 }
 
 func (server *Server) Shutdown() error {
-	ctx := context.Background()
-	g, _ := errgroup.WithContext(ctx)
+	g, _ := errgroup.WithContext(context.Background())
 
 	g.Go(func() error {
 		return server.writer.Shutdown()
