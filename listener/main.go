@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"log"
+	"os"
+	"os/signal"
 
 	"github.com/kamilwrzyszcz/kafka_example/listener/reader"
 	"github.com/kamilwrzyszcz/kafka_example/util"
@@ -20,7 +22,9 @@ func main() {
 
 	messageCommitChan := make(chan kafkago.Message)
 
-	g, ctx := errgroup.WithContext(context.Background())
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+	g, _ := errgroup.WithContext(ctx)
 
 	g.Go(func() error {
 		return reader.FetchMessage(ctx, messageCommitChan)

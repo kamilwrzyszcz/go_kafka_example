@@ -26,7 +26,6 @@ func (k *KafkaReader) FetchMessage(ctx context.Context, messageCommitChan chan k
 	for {
 		select {
 		case <-ctx.Done():
-			log.Printf("Reader, context done: %v\n", ctx.Err())
 			return ctx.Err()
 		default:
 			message, err := k.reader.FetchMessage(ctx)
