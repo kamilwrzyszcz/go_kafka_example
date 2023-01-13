@@ -47,6 +47,7 @@ func (k *KafkaReader) CommitMessages(ctx context.Context, messageCommitChan <-ch
 	for {
 		select {
 		case <-ctx.Done():
+			return ctx.Err()
 		case msg := <-messageCommitChan:
 			err := k.reader.CommitMessages(ctx, msg)
 			if err != nil {
