@@ -1,8 +1,8 @@
 run_kafka:
 	docker compose up
-start_server:
+run_server:
 	go run main.go
-start_listener:
+run_listener:
 	go run listener/main.go
 
-.PHONY:	run_kafka start_server start_listener
+.PHONY:	run_kafka run_server run_listener
